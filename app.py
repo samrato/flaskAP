@@ -24,14 +24,12 @@ def GetAll():
     return jsonify(books)
 
 #get a book by id s consumers api 
-
 @app.route('/books/<int:id>',methods=['GET'])
 def GetID(id):
     for book in books:
         if book['id']==id:
                return jsonify(book)
-
-
+    return jsonify({"message":"Books is not found"})
 
 
 
