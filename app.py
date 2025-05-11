@@ -56,7 +56,18 @@ def update_book(id):
             return jsonify(book)
     return ("Book not found", 404)
 
-
+# --- Route 5: DELETE a book ---
+@app.route('/books/<int:book_id>', methods=['DELETE'])
+def delete_book(book_id):
+    """Remove a book from our collection"""
+    # Find the book index
+    for i, book in enumerate(books):
+        if book["id"] == book_id:
+            # Remove it and return success
+            deleted_book = books.pop(i)
+            return jsonify(deleted_book)
+    # If book doesn't exist
+    return jsonify({"error": "Book not found"}), 404
 
 
 
