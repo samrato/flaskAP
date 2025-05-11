@@ -19,11 +19,17 @@ def register():
     return jsonify({"status": "OK", "code": 200})
 
 #return all books or staffs
-@app.route('/books')
+@app.route('/books' ,methods=['GET'])
 def GetAll():
     return jsonify(books)
 
+#get a book by id s consumers api 
 
+@app.route('/books/<int:id>',methods=['GET'])
+def GetID(id):
+    for book in books:
+        if book['id']==id:
+               return jsonify(book)
 
 
 
