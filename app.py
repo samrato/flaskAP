@@ -18,7 +18,10 @@ def home():
 def register():
     return jsonify({"status": "OK", "code": 200})
 
-
+#return all books or staffs
+@app.route('/books')
+def GetAll():
+    return jsonify(books)
 
 
 
