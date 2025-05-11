@@ -1,4 +1,4 @@
-from flask import Flask,jsonify
+from flask import Flask,jsonify,request
 app=Flask(__name__)
 
 #my simulated database i want to simulate 
@@ -32,6 +32,33 @@ def GetID(id):
     return jsonify({"message":"Books is not found"})
 
 # add another boks or items in the data base
+@app.route('/books',methods=['POST'])
+def Add():
+    data=request.get_json()
+    book_to_add = {
+        "id": len(books) + 1,
+        "title": data["title"],
+        "author": data["author"]
+    }
+    books.append(book_to_add)
+    # Return the new book with "created" status
+    return jsonify(book_to_add), 200
+
+
+# 🟠 PUT - Update a book
+@app.route('/books/<int:id>', methods=['PUT'])
+def update_book(id):
+    data = request.get_json()
+    for book in books:
+        if book["id"] == id:
+            book["title"] = data.get("title", book["title"])
+            book["author"] = data.get("author", book["author"])
+            return jsonify(book)
+    return ("Book not found", 404)
+
+
+
+
 
 
 if __name__=="__main__":
