@@ -1,5 +1,6 @@
 from flask import Flask,jsonify,request,Blueprint
-
+from.models import Book
+from .import db
 
 books_bp=Blueprint("books",__name__,url_prefix="/getbook")
 
@@ -22,8 +23,9 @@ def register():
 
 #return all books or staffs
 @books_bp.route('/books' ,methods=['GET'])
-def GetAll():
-    return jsonify(books)
+def GetAll_Books():
+    book=Book.query.all()
+    return jsonify([b.to_dict() for b in books])
 
 #get a book by id s consumers api 
 @books_bp.route('/books/<int:id>',methods=['GET'])

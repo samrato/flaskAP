@@ -17,7 +17,7 @@ def create_app():
     app.register_blueprint(user_Bp)
     # create tables 
     with app.app_context():
-        from.models import Books,User
+        from.models import Book,User
         db.create_all()
 
     return app
