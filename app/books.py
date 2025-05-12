@@ -1,7 +1,7 @@
 from flask import Flask,jsonify,request,Blueprint
 
 
-books_bp=Blueprint("books",__name__)
+books_bp=Blueprint("books",__name__,url_prefix="/books")
 
 #my simulated database i want to simulate 
 books = [
