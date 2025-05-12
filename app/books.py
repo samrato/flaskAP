@@ -1,5 +1,7 @@
-from flask import Flask,jsonify,request
-app=Flask(__name__)
+from flask import Flask,jsonify,request,Blueprint
+
+
+books_bp=Blueprint("books",__name__)
 
 #my simulated database i want to simulate 
 books = [
@@ -10,21 +12,21 @@ books = [
     {"id": 5, "title": "Starlab", "author": "willington juma"}
 ]
 #the entry point of a flask APi consumer routes 
-@app.route('/')
+@books_bp.route('/')
 def home():
     return jsonify({"message":"Welcome to rest Api"})
 #then after home is another one here 
-@app.route('/register')
+@books_bp.route('/register')
 def register():
     return jsonify({"status": "OK", "code": 200})
 
 #return all books or staffs
-@app.route('/books' ,methods=['GET'])
+@books_bp.route('/books' ,methods=['GET'])
 def GetAll():
     return jsonify(books)
 
 #get a book by id s consumers api 
-@app.route('/books/<int:id>',methods=['GET'])
+@books_bp.route('/books/<int:id>',methods=['GET'])
 def GetID(id):
     for book in books:
         if book['id']==id:
@@ -32,7 +34,7 @@ def GetID(id):
     return jsonify({"message":"Books is not found"})
 
 # add another boks or items in the data base
-@app.route('/books',methods=['POST'])
+@books_bp.route('/books',methods=['POST'])
 def Add():
     data=request.get_json()
     book_to_add = {
@@ -46,7 +48,7 @@ def Add():
 
 
 # 🟠 PUT - Update a book
-@app.route('/books/<int:id>', methods=['PUT'])
+@books_bp.route('/books/<int:id>', methods=['PUT'])
 def update_book(id):
     data = request.get_json()
     for book in books:
@@ -57,7 +59,7 @@ def update_book(id):
     return ("Book not found", 404)
 
 # --- Route 5: DELETE a book ---
-@app.route('/books/<int:book_id>', methods=['DELETE'])
+@books_bp.route('/books/<int:book_id>', methods=['DELETE'])
 def delete_book(book_id):
     """Remove a book from our collection"""
     # Find the book index
@@ -73,5 +75,3 @@ def delete_book(book_id):
 
 
 
-if __name__=="__main__":
-    app.run(debug=True  )
