@@ -9,7 +9,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///data.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
     db.init_app(app)
-
+#the blue prints in it 
     from .books import books_bp
     from .user import user_Bp
     
@@ -17,7 +17,7 @@ def create_app():
     app.register_blueprint(user_Bp)
     # create tables 
     with app.app_context():
-        from.models import Books
+        from.models import Books,User
         db.create_all()
 
     return app
