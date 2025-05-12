@@ -1,4 +1,4 @@
-from flask import Flaskj,jsonify,Blueprint,request
+from flask import Flask,jsonify,Blueprint,request
 
 user_Bp=Blueprint("user",__name__,url_prefix="/user")
 
