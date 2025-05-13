@@ -10,14 +10,16 @@ jwt=JWTManager()
 
 def create_app():
     app=Flask(__name__)
-    #database cnnections 
+    #database cnnections  
     app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///data.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+    #the secrete key 
     app.config['JWT_SECRET_KEY'] = 'super-secret-key'
+
     db.init_app(app)
     bcrypt.init_app(app)
     jwt.init_app(app)
-#the blue prints in it 
+     #the blue prints in it 
     from .books import books_bp
     from .user import user_Bp
     
