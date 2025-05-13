@@ -24,9 +24,13 @@ def register():
 #return all books or staffs
 @books_bp.route('/books' ,methods=['GET'])
 def GetAll_Books():
-    book=Book.query.all()
-    return jsonify([b.to_dict() for b in book])
-
+    try:
+        book=Book.query.all()
+        if not book:
+                return jsonify({"Message":"There is no books available"})
+        return jsonify([b.to_dict() for b in book])
+    except Exception as e:
+        return jsonify({"error":"failed to send books to fetch","details":str(e)}),500
 #get a book by id s consumers api 
 @books_bp.route('/books/<int:id>',methods=['GET'])
 def GetID(id):
@@ -38,16 +42,19 @@ def GetID(id):
 # add another boks or items in the data base
 @books_bp.route('/books',methods=['POST'])
 def Add():
-    data=request.get_json()
-    book_to_add = {
-        "id": len(books) + 1,
-        "title": data["title"],
-        "author": data["author"]
-    }
-    books.append(book_to_add)
-    # Return the new book with "created" status
-    return jsonify(book_to_add), 200
-
+    try:
+        data=request.get_json()
+        title=data.get("title",'').strip()
+        author=data.get("author",'').strip()
+        if not title or not author :
+            return jsonify({"message":"Fill in all field"}),422
+        book=Book(title=title,author=author)
+        db.session.add(book)
+        db.session.commit()
+        return jsonify(book.to_dict()),201
+    except Exception as d:
+        return jsonify({"message":"Internal server error","details":str(d)})
+    
 
 # 🟠 PUT - Update a book
 @books_bp.route('/books/<int:id>', methods=['PUT'])
