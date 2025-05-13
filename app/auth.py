@@ -47,7 +47,7 @@ def login_user():
        email=data.get('email','').strip().lower()
        password=data.get('password','').strip()
        if not email or not password:
-           return jsonify("mesage":"all fields are required"),422
+           return jsonify({"mesage":"all fields are required"}),422
        user=User.query
     except Exception as e:
         return jsonify({"message":"internal server error","details":str(e)})
