@@ -26,9 +26,11 @@ def create_app():
     
     app.register_blueprint(books_bp)
     app.register_blueprint(user_Bp)
+    app.register_blueprint(auth_Bp)
     # create tables 
     with app.app_context():
         from.models import Book,User
+        db.drop_all()
         db.create_all()
 
     return app
