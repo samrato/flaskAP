@@ -3,32 +3,6 @@ from .import db,bcrypt
 from.models import User
 from flask_jwt_extended import create_access_token,jwt_required,get_jwt_identity
 
-
-
-
-
-
-
-
-    # new_user = User(username=username, email=email, password=hashed_password, profile_image=profile_image)
-
-    # db.session.add(new_user)
-    # db.session.commit()
-
-    # access_token = create_access_token(identity=new_user.id)
-
-    # return jsonify({
-    #     "token": access_token,
-    #     "user": {
-    #         "userId": new_user.id,
-    #         "username": new_user.username,
-    #         "email": new_user.email,
-    #         "profileImage": new_user.profile_image,
-    #         "createdAt": new_user.created_at.isoformat()
-    #     }
-    # }), 201
-
-
 auth_Bp=Blueprint("auth",__name__,url_prefix="getauth")
 
 @auth_Bp.route('/register',methods=['POST'])
@@ -50,5 +24,17 @@ def register_user():
         hashed_password=bcrypt.generate_password_hash(password).decode('utf-8') 
         new_user=User(username=username,email=email,password=hashed_password)
         db.session.add(new_user)
+        db.session.commit()
+        access_token=create_access_token(identity=new_user.id)
+        return jsonify({
+            "token":access_token,
+            "user":{
+                "userId":new_user.id,
+                "username":new_user.username,
+                "email":new_user.email,
+                "password":new_user.password,
+                "createdAt":new_user.create_At.isoformat()
+            }
+        }),201
     except Exception as e:
         return jsonify({"message":"Internal server error","details":str(e)})    
