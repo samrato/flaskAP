@@ -39,7 +39,7 @@ def update(id):
         book=Book.query.get_or_404(id)
         book.title=data.get('title',book.title)
         book.author=data.get('author',book.author)
-        db.commit()
+        db.session.commit()
         return jsonify({"message":"Books updated succsfully"})
     except Exception as e:
         return jsonify({"maasge":"internal server error","details":str(e)})
