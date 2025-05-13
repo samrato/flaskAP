@@ -32,12 +32,10 @@ def GetAll_Books():
     except Exception as e:
         return jsonify({"error":"failed to send books to fetch","details":str(e)}),500
 #get a book by id s consumers api 
-@books_bp.route('/books/<int:id>',methods=['GET'])
-def GetID(id):
-    for book in books:
-        if book['id']==id:
-               return jsonify(book)
-    return jsonify({"message":"Books is not found"})
+@books_bp.route('/books/<int:id>',methods=['PUT'])
+def update(id):
+    try:
+    
 
 # add another boks or items in the data base
 @books_bp.route('/books',methods=['POST'])
@@ -75,6 +73,8 @@ def delete_book(book_id):
        book=Book.query.get_or_404(book_id)
        db.session.delete(book)
        db.session.commit()
+       return jsonify({'message':"Books is deleted succesfully"}),201
+
     except Exception as e:
        return jsonify({"message":"Failed to delete boks","detailes":str(e)})
 
