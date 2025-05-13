@@ -48,6 +48,8 @@ def login_user():
        password=data.get('password','').strip()
        if not email or not password:
            return jsonify({"mesage":"all fields are required"}),422
-       user=User.query
+       user=User.query.filter_by(email=email).first()
+       if not user or not bcrypt.check_password_hash(user.password,password):
+           return jsonify({"message":"Invalisd credentials "})
     except Exception as e:
         return jsonify({"message":"internal server error","details":str(e)})
