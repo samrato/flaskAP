@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+# instanciate the events in the python after importing 
 
 db=SQLAlchemy()
 bcrypt=Bcrypt()
@@ -13,6 +14,8 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI']= 'sqlite:///data.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
     db.init_app(app)
+    bcrypt.init_app(app)
+    jwt.init_app(app)
 #the blue prints in it 
     from .books import books_bp
     from .user import user_Bp
