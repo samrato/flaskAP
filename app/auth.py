@@ -28,13 +28,14 @@ def register_user():
         access_token=create_access_token(identity=new_user.id)
         return jsonify({
             "token":access_token,
-            "user":{
-                "userId":new_user.id,
-                "username":new_user.username,
-                "email":new_user.email,
-                "password":new_user.password,
-                "createdAt":new_user.create_At.isoformat()
-            }
+             "user":new_user.to_dict()
+            # {
+            # #     "userId":new_user.id,
+            # #     "username":new_user.username,
+            # #     "email":new_user.email,
+            # #     "password":new_user.password,
+            # #     "createdAt":new_user.create_At.isoformat()
+            # # }
         }),201
     except Exception as e:
         return jsonify({"message":"Internal server error","details":str(e)})    
