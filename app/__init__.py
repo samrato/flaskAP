@@ -20,6 +20,7 @@ def create_app():
     bcrypt.init_app(app)
     jwt.init_app(app)
      #the blue prints in it 
+    from.auth import auth_Bp
     from .books import books_bp
     from .user import user_Bp
     
