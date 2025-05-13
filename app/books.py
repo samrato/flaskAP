@@ -35,6 +35,14 @@ def GetAll_Books():
 @books_bp.route('/books/<int:id>',methods=['PUT'])
 def update(id):
     try:
+        data=request.get_json()
+        book=Book.query.get_or_404(id)
+        book.title=data.get('title',book.title)
+        book.author=data.get('author',book.author)
+        db.commit()
+        return jsonify({"message":"Books updated succsfully"})
+    except Exception as e:
+        return jsonify({"maasge":"internal server error","details":str(e)})
     
 
 # add another boks or items in the data base
@@ -54,16 +62,16 @@ def Add():
         return jsonify({"message":"Internal server error","details":str(d)})
     
 
-# 🟠 PUT - Update a book
-@books_bp.route('/books/<int:id>', methods=['PUT'])
-def update_book(id):
-    data = request.get_json()
-    for book in books:
-        if book["id"] == id:
-            book["title"] = data.get("title", book["title"])
-            book["author"] = data.get("author", book["author"])
-            return jsonify(book)
-    return ("Book not found", 404)
+# # 🟠 PUT - Update a book
+# @books_bp.route('/books/<int:id>', methods=['PUT'])
+# def update_book(id):
+#     data = request.get_json()
+#     for book in books:
+#         if book["id"] == id:
+#             book["title"] = data.get("title", book["title"])
+#             book["author"] = data.get("author", book["author"])
+#             return jsonify(book)
+#     return ("Book not found", 404)
 
 # --- Route 5: DELETE a book ---
 @books_bp.route('/books/<int:book_id>', methods=['DELETE'])
