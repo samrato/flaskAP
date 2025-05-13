@@ -13,4 +13,4 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)  
     password = db.Column(db.String(128), nullable=False)  
     def to_dict(self):
-           return{"id":self.id,"username":self.username,"email":self.email}    
+           return{"id":self.id,"username":self.username,"email":self.email,"password":self.password}    
