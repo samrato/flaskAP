@@ -27,6 +27,7 @@ def register_user():
         db.session.commit()
         access_token=create_access_token(identity=new_user.userId)
         return jsonify({
+            "message":"User register successfully",
             "token":access_token,
              "user":new_user.to_dict()
             # {
@@ -53,6 +54,7 @@ def login_user():
            return jsonify({"message":"Invalisd credentials "})
        token =create_access_token(identity=user.userId)
        return jsonify({
+           "message":"User login succssfully",
            "token":token,
            "user":user.to_dict()
        })

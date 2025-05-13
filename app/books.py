@@ -1,4 +1,5 @@
 from flask import Flask,jsonify,request,Blueprint
+from flask_jwt_extended import jwt_required
 from.models import Book
 from .import db
 
