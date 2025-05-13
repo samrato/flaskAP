@@ -5,13 +5,13 @@ from .import db
 books_bp=Blueprint("books",__name__,url_prefix="/getbook")
 
 #my simulated database i want to simulate 
-books = [
-    {"id": 1, "title": "Atomic Habits", "author": "James Clear"},
-    {"id": 2, "title": "Deep Work", "author": "Cal Newport"},
-    {"id": 3, "title": "Thong", "author": "Caluka"},
-    {"id": 4, "title": "Burko gurd", "author": "kamau"},
-    {"id": 5, "title": "Starlab", "author": "willington juma"}
-]
+# books = [
+#     {"id": 1, "title": "Atomic Habits", "author": "James Clear"},
+#     {"id": 2, "title": "Deep Work", "author": "Cal Newport"},
+#     {"id": 3, "title": "Thong", "author": "Caluka"},
+#     {"id": 4, "title": "Burko gurd", "author": "kamau"},
+#     {"id": 5, "title": "Starlab", "author": "willington juma"}
+# ]
 #the entry point of a flask APi consumer routes 
 @books_bp.route('/')
 def home():
