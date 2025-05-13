@@ -40,7 +40,7 @@ def register_user():
     except Exception as e:
         return jsonify({"message":"Internal server error","details":str(e)})    
     
-@auth_Bp('/login',methods=['POST'])
+@auth_Bp.route('/login',methods=['POST'])
 def login_user():
     try:
        data=request.get_json() 
@@ -51,5 +51,10 @@ def login_user():
        user=User.query.filter_by(email=email).first()
        if not user or not bcrypt.check_password_hash(user.password,password):
            return jsonify({"message":"Invalisd credentials "})
+       token =create_access_token(identity=user.userId)
+       return jsonify({
+           "token":token,
+           "user":user.to_dict()
+       })
     except Exception as e:
         return jsonify({"message":"internal server error","details":str(e)})
