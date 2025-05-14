@@ -1,7 +1,7 @@
 from flask import Flask,jsonify,request,Blueprint
-from flask_jwt_extended import jwt_required
-from.models import Book
-from .import db
+from flask_jwt_extended import jwt_required,get_jwt_identity
+from.models import Book,User
+from .import db,bcrypt
 
 books_bp=Blueprint("books",__name__,url_prefix="/getbook")
 
@@ -47,15 +47,25 @@ def update(id):
     
 
 # add another boks or items in the data base
-@books_bp.route('/books',methods=['POST'])
-def Add():
+@books_bp.route('/books/juma',methods=['POST'])
+@jwt_required()
+def Add_book():
     try:
+        print("Reached Add route") 
+        current_user_id=str(get_jwt_identity())
+        print(f"Current User ID: {current_user_id}")
+        if not  current_user_id:
+            return jsonify({"message":"Unauthorized: User ID not found in token"}),401
+        user = User.query.get(current_user_id)
+        if not user:
+            return jsonify({"message": "Unauthorized: User does not exist"}), 401
+       
         data=request.get_json()
         title=data.get("title",'').strip()
         author=data.get("author",'').strip()
         if not title or not author :
             return jsonify({"message":"Fill in all field"}),422
-        book=Book(title=title,author=author)
+        book=Book(title=title,author=author ,userId=current_user_id )
         db.session.add(book)
         db.session.commit()
         return jsonify(book.to_dict()),201
@@ -78,7 +88,6 @@ def Add():
 @books_bp.route('/books/<int:book_id>', methods=['DELETE'])
 def delete_book(book_id):
     try:
-       data=request.get_json()
        book=Book.query.get_or_404(book_id)
        db.session.delete(book)
        db.session.commit()

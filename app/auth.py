@@ -2,6 +2,7 @@ from flask import Flask ,request,jsonify,Blueprint
 from .import db,bcrypt
 from.models import User
 from flask_jwt_extended import create_access_token,jwt_required,get_jwt_identity
+from datetime import timedelta
 
 auth_Bp=Blueprint("auth",__name__,url_prefix="/autheticate")
 
@@ -52,7 +53,9 @@ def login_user():
        user=User.query.filter_by(email=email).first()
        if not user or not bcrypt.check_password_hash(user.password,password):
            return jsonify({"message":"Invalisd credentials "})
-       token =create_access_token(identity=user.userId)
+       token =create_access_token(identity=str(user.userId))
+       print("Login successful for userId:", user.userId)
+
        return jsonify({
            "message":"User login succssfully",
            "token":token,

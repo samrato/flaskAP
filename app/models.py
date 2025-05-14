@@ -6,7 +6,7 @@ class Book(db.Model):
     author = db.Column(db.String(120), nullable=False)
     userId = db.Column(db.Integer, db.ForeignKey('user.userId'), nullable=False)#the refernce from the user
     def to_dict(self):
-          return {"id":self.id,"title":self.title,"author":self.author,"userId": self.userId}
+          return {"bookId":self.bookId,"title":self.title,"author":self.author,"userId": self.userId}
 
 class User(db.Model):
     userId = db.Column(db.Integer, primary_key=True)
