@@ -19,6 +19,20 @@ This is a RESTful API built with Flask that allows users to register, login, and
 - SQLite (or switchable to PostgreSQL/MySQL)
 - GitHub Actions for CI
 
+API Endpoints
+
+    POST /register - Register new user
+
+    POST /login - Login and get token
+
+    GET /myitems - Get items for logged-in user
+
+    POST /items - Add new item (auth required)
+
+    PUT /items/<id> - Update an item (auth required)
+
+    DELETE /items/<id> - Delete an item (auth required)
+
 ## ▶️ Setup
 
 ```bash
