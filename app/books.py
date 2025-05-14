@@ -36,6 +36,14 @@ def GetAll_Books():
 @books_bp.route('/books/<int:id>',methods=['PUT'])
 def update(id):
     try:
+       current_user= int(get_jwt_identity())
+       if not  current_user:
+            return jsonify({"message":"Unauthorized: User ID not found in token"}),401
+       book = Book.query.get(id)
+       if not book:
+            return jsonify({"message": f"Book with ID {id} not found"}), 404
+       if book.userId != current_user:
+        return jsonify({"message":"Unauthorized to update this book"}), 403
         data=request.get_json()
         book=Book.query.get_or_404(id)
         book.title=data.get('title',book.title)
