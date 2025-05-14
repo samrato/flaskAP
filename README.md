@@ -1,14 +1,14 @@
 # 📘 Flask REST API
 
-This is a RESTful API built with Flask that allows users to register, login, and manage their personal items.
+This is a RESTful API built with Flask that allows users to register, log in, and manage their personal items.
 
 ## 🔧 Features
 
-- JWT Authentication
-- User Registration and Login
-- Create, Read, Update, Delete (CRUD) for user-specific items
-- Protect routes for logged-in users
-- GitHub Actions CI for testing
+- 🔐 JWT Authentication
+- 👤 User Registration and Login
+- 📝 Create, Read, Update, Delete (CRUD) for user-specific items
+- 🔒 Route protection for authenticated users
+- ⚙️ GitHub Actions CI for testing
 
 ## 🚀 Technologies
 
@@ -16,34 +16,30 @@ This is a RESTful API built with Flask that allows users to register, login, and
 - Flask
 - Flask-JWT-Extended
 - SQLAlchemy
-- SQLite (or switchable to PostgreSQL/MySQL)
-- GitHub Actions for CI
-![App Screenshot](./assets/flask_api.jpg)
+- SQLite (can switch to PostgreSQL/MySQL)
+- GitHub Actions
 
-API Endpoints
+## 📸 Screenshot
 
-    POST /register - Register new user
+![App Screenshot](./assets/flasme.jpg)
 
-    POST /login - Login and get token
+## 📡 API Endpoints
 
-    GET /myitems - Get items for logged-in user
+```http
+POST /register         # Register a new user
+POST /login            # Login and get JWT token
+GET /myitems           # Get items for the logged-in user
+POST /items            # Add new item (auth required)
+PUT /items/<id>        # Update an item (auth required)
+DELETE /items/<id>     # Delete an item (auth required)
 
-    POST /items - Add new item (auth required)
-
-    PUT /items/<id> - Update an item (auth required)
-
-    DELETE /items/<id> - Delete an item (auth required)
-
-## ▶️ Setup
-
-```bash
-# Clone the repo
+# Clone the repository
 git clone https://github.com/samrato/flaskPi.git
-cd flask-api
+cd flaskPi
 
-# Create virtual environment and activate
+# Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
