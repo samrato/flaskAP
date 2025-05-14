@@ -86,7 +86,9 @@ def Add_book():
 @jwt_required
 def get_User_spec_Book(id):
   try:
-      urrent_user_id = int(get_jwt_identity())
+      current_user_id = int(get_jwt_identity())
+      if  not  current_user_id:
+            return jsonify({"message":"Unauthorized: User ID not found in token"}),401
 
 
   except Exception as e:
