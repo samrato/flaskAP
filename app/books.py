@@ -82,9 +82,9 @@ def Add_book():
     
 
 #get a specific book for a specific user in the database 
-@books_bp.route('/books/<int:id>', methods=['PUT'])
-@jwt_required
-def get_User_spec_Book(id):
+@books_bp.route('/mybooks', methods=['GET'])
+@jwt_required()
+def get_my_books():
   try:
       current_user_id = int(get_jwt_identity())
       if  not  current_user_id:
