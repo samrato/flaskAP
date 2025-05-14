@@ -22,7 +22,7 @@ def home():
 def register():
     return jsonify({"status": "OK", "code": 200})
 
-#return all books or staffs
+#return all books or staffs from the data base 
 @books_bp.route('/books' ,methods=['GET'])
 def GetAll_Books():
     try:
@@ -32,20 +32,20 @@ def GetAll_Books():
         return jsonify([b.to_dict() for b in book])
     except Exception as e:
         return jsonify({"error":"failed to send books to fetch","details":str(e)}),500
-#get a book by id s consumers api 
+#get update the books int the data base  
 @books_bp.route('/books/<int:id>',methods=['PUT'])
+@jwt_required()
 def update(id):
     try:
-       current_user= int(get_jwt_identity())
-       if not  current_user:
+        current_user= int(get_jwt_identity())
+        if not  current_user:
             return jsonify({"message":"Unauthorized: User ID not found in token"}),401
-       book = Book.query.get(id)
-       if not book:
+        book = Book.query.get(id)
+        if not book:
             return jsonify({"message": f"Book with ID {id} not found"}), 404
-       if book.userId != current_user:
-        return jsonify({"message":"Unauthorized to update this book"}), 403
+        if book.userId != current_user:
+             return jsonify({"message":"Unauthorized to update this book"}), 403
         data=request.get_json()
-        book=Book.query.get_or_404(id)
         book.title=data.get('title',book.title)
         book.author=data.get('author',book.author)
         db.session.commit()
@@ -81,18 +81,24 @@ def Add_book():
         return jsonify({"message":"Internal server error","details":str(d)})
     
 
-# # 🟠 PUT - Update a book
-# @books_bp.route('/books/<int:id>', methods=['PUT'])
-# def update_book(id):
-#     data = request.get_json()
-#     for book in books:
-#         if book["id"] == id:
-#             book["title"] = data.get("title", book["title"])
-#             book["author"] = data.get("author", book["author"])
-#             return jsonify(book)
-#     return ("Book not found", 404)
+#get a specific book for a specific user in the database 
+@books_bp.route('/books/<int:id>', methods=['PUT'])
+@jwt_required
+def get_User_spec_Book(id):
+  try:
+      urrent_user_id = int(get_jwt_identity())
 
-# --- Route 5: DELETE a book ---
+
+  except Exception as e:
+      return jsonify({"Message":"Internal server error"}),500
+ 
+
+
+
+
+
+
+#this is for deleting a book from the given user 
 @books_bp.route('/books/<int:book_id>', methods=['DELETE'])
 @jwt_required()
 def delete_book(book_id):
