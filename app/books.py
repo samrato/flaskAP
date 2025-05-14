@@ -89,7 +89,11 @@ def get_User_spec_Book(id):
       current_user_id = int(get_jwt_identity())
       if  not  current_user_id:
             return jsonify({"message":"Unauthorized: User ID not found in token"}),401
-
+      books = Book.query.filter_by( userId=current_user_id).all()
+      if not books:
+            return jsonify({"message": f"No book found with ID  for the current user"}), 404
+        
+      return jsonify([book.to_dict() for book in books]), 200
 
   except Exception as e:
       return jsonify({"Message":"Internal server error"}),500
