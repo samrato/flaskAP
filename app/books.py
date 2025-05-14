@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required,get_jwt_identity
 from.models import Book,User
 from .import db,bcrypt
 
-books_bp=Blueprint("books",__name__,url_prefix="/getbook")
+books_bp=Blueprint("books",__name__,url_prefix="/")
 
 #my simulated database i want to simulate 
 # books = [
@@ -52,7 +52,7 @@ def update(id):
 def Add_book():
     try:
         print("Reached Add route") 
-        current_user_id=str(get_jwt_identity())
+        current_user_id=int(get_jwt_identity())
         print(f"Current User ID: {current_user_id}")
         if not  current_user_id:
             return jsonify({"message":"Unauthorized: User ID not found in token"}),401
@@ -68,7 +68,7 @@ def Add_book():
         book=Book(title=title,author=author ,userId=current_user_id )
         db.session.add(book)
         db.session.commit()
-        return jsonify(book.to_dict()),201
+        return jsonify({"message":"book added succesfully"},book.to_dict()),201
     except Exception as d:
         return jsonify({"message":"Internal server error","details":str(d)})
     
@@ -86,9 +86,17 @@ def Add_book():
 
 # --- Route 5: DELETE a book ---
 @books_bp.route('/books/<int:book_id>', methods=['DELETE'])
+@jwt_required()
 def delete_book(book_id):
     try:
-       book=Book.query.get_or_404(book_id)
+       current_user= int(get_jwt_identity())
+       if not  current_user:
+            return jsonify({"message":"Unauthorized: User ID not found in token"}),401
+       book = Book.query.get(book_id)
+       if not book:
+            return jsonify({"message": f"Book with ID {book_id} not found"}), 404
+       if book.userId != current_user:
+           return jsonify({"message":"Unauthorized to delete this book"}), 403
        db.session.delete(book)
        db.session.commit()
        return jsonify({'message':"Books is deleted succesfully"}),201
