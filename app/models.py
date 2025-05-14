@@ -1,11 +1,12 @@
 from.import db
 
 class Book(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    bookId = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(120), nullable=False)
     author = db.Column(db.String(120), nullable=False)
+    userId = db.Column(db.Integer, db.ForeignKey('user.userId'), nullable=False)#the refernce from the user
     def to_dict(self):
-          return {"id":self.id,"title":self.title,"author":self.author}
+          return {"id":self.id,"title":self.title,"author":self.author,"userId": self.userId}
 
 class User(db.Model):
     userId = db.Column(db.Integer, primary_key=True)
