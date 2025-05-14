@@ -18,6 +18,7 @@ This is a RESTful API built with Flask that allows users to register, login, and
 - SQLAlchemy
 - SQLite (or switchable to PostgreSQL/MySQL)
 - GitHub Actions for CI
+![App Screenshot](./assets/flask_api.jpg)
 
 API Endpoints
 
