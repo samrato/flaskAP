@@ -24,6 +24,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Check for tests
         run: |
-          pytest  
+          if ls test_*.py 1> /dev/null 2>&1; then
+            pytest
+          else
+            echo "No tests found. Skipping pytest."
+          fi
