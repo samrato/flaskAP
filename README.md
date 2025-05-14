@@ -1,4 +1,4 @@
-# 📘 Flask REST API
+# 🚰🧪 Flask REST API
 
 This is a RESTful API built with Flask that allows users to register, log in, and manage their personal items.
 
